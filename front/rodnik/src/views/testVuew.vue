@@ -1,46 +1,22 @@
-<template>
-  <div v-for="session in sessions" :key="session.id">
-    <v-dropdown>
-      <template v-slot:activator="{ on }">
-        <v-btn v-on="on">Тренер</v-btn>
-      </template>
+<!--<template>-->
+<!--  <div v-for="el1 in 10">-->
+<!--    <button @click="handleClick(el1)">Нажмите на внутренний элемент {{ el1 }}</button>-->
+<!--    <span v-for="el2 in 5" :ref="'el2-' + el2">{{ el2 }}</span>-->
+<!--  </div>-->
+<!--</template>-->
 
-      <v-list>
-        <v-list-item v-for="trainer in trainers[session.id]" :key="trainer">
-          <v-list-item-title @click="selectTrainer(session, trainer)">{{ trainer }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-dropdown>
+<!--<script>-->
+<!--import { ref } from 'vue';-->
 
-    <div v-if="selectedTrainers[session.id]">
-      Выбранный тренер: {{ selectedTrainers[session.id] }}
-    </div>
-  </div>
-</template>
+<!--export default {-->
+<!--  methods: {-->
+<!--    handleClick(el1) {-->
+<!--      // Получить ссылку на внешний элемент с помощью рефа-->
+<!--      const el2 = this.$refs['el2-' + el1];-->
 
-<script>
-import { ref } from 'vue';
-
-export default {
-  data() {
-    return {
-      sessions: [
-        { id: 1, name: 'Сессия 1' },
-        { id: 2, name: 'Сессия 2' },
-        { id: 3, name: 'Сессия 3' },
-      ],
-      trainers: {
-        1: ['Тренер 1', 'Тренер 2'],
-        2: ['Тренер 3', 'Тренер 4'],
-        3: ['Тренер 5', 'Тренер 6'],
-      },
-      selectedTrainers: {},
-    };
-  },
-  methods: {
-    selectTrainer(session, trainer) {
-      this.selectedTrainers[session.id] = trainer;
-    },
-  },
-};
-</script>
+<!--      // Получить значение внешнего элемента-->
+<!--      console.log(el2.textContent);-->
+<!--    }-->
+<!--  }-->
+<!--};-->
+<!--</script>-->
