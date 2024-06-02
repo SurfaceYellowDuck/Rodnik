@@ -27,13 +27,28 @@ export default createStore({
                     firstname: "Алексей",
                     lastname: "Оболонский",
                     patronymic: "Иванович",
-                    user_abonements: [1]
+                    user_abonements: [1],
+                    role:"user",
+                    username: "alex",
+                    password: "alex1"
                 },
                 {
                     id: 2,
                     firstname: "Петр",
                     lastname: "Нефедов",
-                    patronymic: "Кириллович"
+                    patronymic: "Кириллович",
+                    role:"user",
+                    username: "petya",
+                    password: "petya1"
+                },
+                {
+                    id: 3,
+                    lastname: "Луконенко",
+                    firstname: "Никита",
+                    patronymic: "Игоревич",
+                    role:"admin",
+                    username: "admin",
+                    password: "admin"
                 },
             ],
         poolTypes:
@@ -60,39 +75,78 @@ export default createStore({
                     patronymic: "Кириллович"
                 },
             ],
-        abonements: [
-            {
-                id: 1,
-                user_id: 1,
-                abonType: 3
-            },
-            {
-                id: 2,
-                user_id: 1,
-                abonType: 3
-
-            },
-
-        ],
-        activities: [
-            {
-                id: 3,
-                abonementId: 1,
-                user_id: 1,
-                trainer: {
-                    id: 1,
-                    firstname: "Алексей",
-                    lastname: "Оболонский",
-                    patronymic: "Иванович",
-                },
-                poolType: {
-                    type: "Большой",
-                },
-                date: "23 Jun 2024",
-                start_time: "04:28 PM",
-                end_time: "04:28 PM"
-            }
-        ]
+        abonements:
+            JSON.parse((localStorage.getItem("abonements")))
+        ,
+        // abonements: [
+        //     {
+        //         id: 1,
+        //         user_id: 1,
+        //         abonType: 3
+        //     },
+        //     {
+        //         id: 2,
+        //         user_id: 1,
+        //         abonType: 3
+        //
+        //     },
+        //
+        // ],
+        activities: JSON.parse((localStorage.getItem("activities"))),
+        // activities: [
+        //     {
+        //         id: 1,
+        //         abonementId: 1,
+        //         user_id: 1,
+        //         trainer: {
+        //             id: 1,
+        //             firstname: "Алексей",
+        //             lastname: "Оболонский",
+        //             patronymic: "Иванович",
+        //         },
+        //         poolType: {
+        //             type: "Большой",
+        //         },
+        //         date: "23 Jun 2024",
+        //         start_time: "04:28 PM",
+        //         end_time: "04:28 PM"
+        //     },
+        //     {
+        //         id: 2,
+        //         abonementId: 1,
+        //         user_id: 1,
+        //         trainer: {
+        //             id: 1,
+        //             firstname: "Алексей",
+        //             lastname: "Оболонский",
+        //             patronymic: "Иванович",
+        //         },
+        //         poolType: {
+        //             type: "Большой",
+        //         },
+        //         date: "23 Jun 2024",
+        //         start_time: "04:28 PM",
+        //         end_time: "04:28 PM"
+        //     },
+        //     {
+        //         id: 3,
+        //         abonementId: 1,
+        //         user_id: 1,
+        //         trainer: {
+        //             id: 1,
+        //             firstname: "Алексей",
+        //             lastname: "Оболонский",
+        //             patronymic: "Иванович",
+        //         },
+        //         poolType: {
+        //             type: "Большой",
+        //         },
+        //         date: "23 Jun 2024",
+        //         start_time: "04:28 PM",
+        //         end_time: "04:28 PM"
+        //     }
+        // ],
+        curUser: {}
     },
     getters: {
         ABONEMENTTYPES: state => {
@@ -129,15 +183,30 @@ export default createStore({
         ABONEMENTS: state => {
             return state.abonements
         },
+        GET_CUR_USER: state => {
+            return state.curUser
+        },
+        GET_ACTIVITIES_FOR_USER: state => {
+            let activities = []
+            for(let el in state.activities){
+                console.log(el)
+                if (state.activities[el]['user_id'] === state.curUser['id']){
+                    activities.push(state.activities[el])
+                }
+            }
+            return activities
+        }
     },
     mutations: {
         addAbonement(state, payload){
             state.abonements.push(payload.abonement)
-            console.log(state.abonements)
+            // console.log(state.abonements)
         },
         addActivities(state, payload){
             state.activities.push(payload.activity)
-
+        },
+        setCurrentUser(state, payload){
+            state.curUser = payload.user
         }
     },
     actions: {},
