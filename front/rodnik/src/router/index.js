@@ -3,13 +3,13 @@ import HomeView from '../views/HomeView.vue'
 
 const routes = [
 
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: HomeView
+  // },
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/main',
     name: 'mainLogin',
     // meta:{layout:'empty'},
     component: () => import('../views/LoginView.vue'),
@@ -40,7 +40,7 @@ const routes = [
   },
   {
     path: '/add_abonement',
-    name: 'profile',
+    name: 'add_abonement',
     // meta:{layout:'empty'},
     component: () => import('../views/AddAbonementView.vue')
   },

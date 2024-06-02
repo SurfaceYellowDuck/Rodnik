@@ -5,7 +5,7 @@
       <nav>
         <router-link style="line-height: unset" to="/abonements">Абонементы</router-link>
         |
-<!--        <router-link to="/clients">Клиенты</router-link>-->
+        <!--        <router-link to="/clients">Клиенты</router-link>-->
         |
         <router-link to="/activities">Занятия</router-link>
       </nav>
@@ -91,7 +91,7 @@ export default {
       handler() {
         this.$data.activities = this.initActivitiesDict(this.$data.abonTypeObject.cnt_activities,
             this.$data.maxActivityID)
-        console.log(this.$data.abonTypeObject.cnt_activities)
+        // console.log(this.$data.abonTypeObject.cnt_activities)
         this.$nextTick(() => {
           M.Dropdown.init(this.$el.querySelectorAll('.dropdown-trigger'));
           for (let i = 1; i <= this.$data.abonTypeObject.cnt_activities; i++) {
@@ -147,21 +147,17 @@ export default {
       M.Dropdown.init(this.$el.querySelectorAll('.dropdown-trigger'), options);
     },
     handleDatePickerSelect(item) {
-      // console.log(this.maxActivityID + parseInt(item.id))
 
       this.$data.activities[this.$data.maxActivityID + parseInt(item.id)]['date'] = item.value
-      // console.log(this.$data.activities[item.id - 1])
 
     },
     handleTimeStartPickerSelect(item) {
       this.$data.activities[this.$data.maxActivityID + parseInt(item.id)]['start_time'] = item.value
-      // console.log(this.$data.activities[item.id - 1])
 
     },
     handleTimeEndPickerSelect(item) {
-      console.log("sgfsfdg")
+      // console.log("sgfsfdg")
       this.$data.activities[this.$data.maxActivityID + parseInt(item.id)]['end_time'] = item.value
-      // console.log(this.$data.activities[item.id - 1])
 
     },
     handleAbonementDropdownClick(item) {
@@ -178,7 +174,7 @@ export default {
       this.$data.trainerSelected = true
       this.$data.trainerObject = item
       this.$data.activities[this.$data.maxActivityID + parseInt(event.target.id)]['trainer'] = item
-      console.log(event)
+      // console.log(event)
     },
     handlePoolDropdownClick(item, event) {
       this.$data.poolTypeSelected = true
@@ -192,7 +188,7 @@ export default {
 
     initActivitiesDict(cnt, lastMaxActivityId) {
       const keys = [...Array(cnt).keys()].map(x => (lastMaxActivityId + 1 + x).toString()); // [1, 2, ..., 20]
-      console.log(keys)
+      // console.log(keys)
       const values = keys.map((x) => ({
         id: x,
         abonementId: this.$data.maxAbonementID,
@@ -203,7 +199,7 @@ export default {
         start_time: null,
         end_time: null
       }));
-      console.log(values)
+      // console.log(values)
       return Object.fromEntries(keys.map((key, index) => [key, values[index]]));
     },
 
@@ -220,39 +216,56 @@ export default {
 
         for (let i = this.maxActivityID + 1;
              i < this.$data.maxActivityID + 1 + this.$data.abonTypeObject.cnt_activities; i++) {
-          console.log(i)
-          // if(this.$data.clientSelected){
+          // console.log(i)
           this.$data.activities[i]['user_id'] = this.$data.clientObject['id']
           this.$data.activities[i]['id'] = parseInt(this.$data.activities[i]['id'])
 
           this.$store.commit('addActivities', {activity: this.$data.activities[i]})
-          // }
-
-          // activities.push(this.$data.activities)
+          // this.saveData(this.$data.activities[i])
+          // this.saveDataToJson(this.$data.activities[i])
         }
-        console.log(this.$store.getters.ACTIVITIES)
+        // console.log(this.$store.getters.ACTIVITIES)
       }
+      // const request = indexedDB.open('my-database')
+      // request.onsuccess = () => {
+      //   const db = request.result
+      //   const transaction = db.transaction(['my-store'], 'readwrite')
+      //   const store = transaction.objectStore('my-store')
+      //   store.put(this.$store.ACTIVITIES, 'my-data')
+      // }
+      let activities = this.$store.getters.ACTIVITIES
+      let abonements = this.$store.getters.ABONEMENTS
+
+      localStorage.setItem("activities", JSON.stringify(activities))
+      localStorage.setItem("abonements", JSON.stringify(abonements))
 
 
-      // keys.map((x) => ({
-      //   id: x,
-      //   abonementId: this.$data.maxAbonementID,
-      //   user_id: null,
-      //   trainer: null,
-      //   poolType: null,
-      //   date: null,
-      //   start_time: null,
-      //   end_time: null
-      // }));
-
+      console.log('****')
+      // console.log(JSON.stringify(data))
+      // console.log(JSON.parse(JSON.stringify(data)))
+      console.log(JSON.parse((localStorage.getItem("data"))))
+      // state: localStorage.getItem('data'),
 
     },
+    //   saveData(data){
+    //     // const data = {name: 'John', age: 30};
+    //     const jsonData = JSON.stringify(data);
+    //     fetch('/data.json', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: jsonData
+    //     })
+    //         .then(response => {
+    //           console.log('Data saved:', response);
+    //         })
+    //         .catch(error => {
+    //           console.error('Error:', error);
+    //         });
+    //   },
   },
 
-
-  // saveActivities(){
-  //
-  // },
   data() {
     return {
       maxActivityID: this.$store.getters.MAX_ACTIVITIES_ID,
