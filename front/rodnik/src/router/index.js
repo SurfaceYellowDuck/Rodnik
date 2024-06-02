@@ -44,12 +44,12 @@ const routes = [
     // meta:{layout:'empty'},
     component: () => import('../views/AddAbonementView.vue')
   },
-  {
-    path: '/test',
-    name: 'test',
-    // meta:{layout:'empty'},
-    component: () => import('../views/testVuew.vue')
-  },
+  // {
+  //   path: '/test',
+  //   name: 'test',
+  //   // meta:{layout:'empty'},
+  //   component: () => import('../views/testVuew.vue')
+  // },
   {
     path: '/about',
     name: 'about',
